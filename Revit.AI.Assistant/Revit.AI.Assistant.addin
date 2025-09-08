@@ -1,0 +1,11 @@
+﻿<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>Revit.AI.Assistant</Name>
+        <Assembly>Revit.AI.Assistant/Revit.AI.Assistant.dll</Assembly>
+        <AddInId>359BC8A2-0074-4F93-AE45-AD9E4FE7B42D</AddInId>
+        <FullClassName>Revit.AI.Assistant.Application</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+        <VendorEmail></VendorEmail>
+    </AddIn>
+</RevitAddIns>

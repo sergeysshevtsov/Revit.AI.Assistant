@@ -53,14 +53,10 @@ internal class AIService
         string[] lines = code.Trim().Split('\n');
 
         if (lines[0].Trim().StartsWith("```python"))
-        {
-            lines = lines.Skip(1).ToArray();
-        }
+            lines = [.. lines.Skip(1)];
 
         if (lines[lines.Length - 1].Trim() == "```")
-        {
-            lines = lines.Take(lines.Length - 1).ToArray();
-        }
+            lines = [.. lines.Take(lines.Length - 1)];
 
         string cleanSnippet = string.Join("\n", lines);
 

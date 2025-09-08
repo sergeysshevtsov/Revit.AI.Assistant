@@ -169,7 +169,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SendMessage}" Key="Return" />
+                </TextBox.InputBindings>
+            </TextBox>
             <Button
                 Grid.Column="2"
                 Command="{Binding SendMessage}"

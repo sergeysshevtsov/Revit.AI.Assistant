@@ -12,7 +12,7 @@ public class Application : ExternalApplication
 {
 
     public static DockablePaneId dockablePaneId = new(Guid.Parse("840DEBE3-C9AD-4451-B972-B179E8C72CE6"));
-    string dockablePaneTitle = "Revit.AI.Assistant";
+    readonly string dockablePaneTitle = "AI.Assistant - Local - Ollama";
 
     public override void OnStartup()
     {
@@ -23,8 +23,8 @@ public class Application : ExternalApplication
 
     private void CreateRibbon()
     {
-        var panel = Application.CreatePanel("AI.Assist", "SHSS Tools");
-        panel.AddPushButton<CmdAIAssistant>("AI Panel")
+        var panel = Application.CreatePanel("Utils", "SHSS Tools");
+        panel.AddPushButton<CmdAIAssistant>("AI.Assistant")
             .SetImage("/Revit.AI.Assistant;component/Resources/Icons/AIAssistant16.png")
             .SetLargeImage("/Revit.AI.Assistant;component/Resources/Icons/AIAssistant32.png");
     }
@@ -33,7 +33,8 @@ public class Application : ExternalApplication
     {
         try
         {
-            DockablePaneService.RegisterDockableWindow(application, new AIPanelUserControl(), dockablePaneId, dockablePaneTitle);
+            var uc = new AIPanelUserControl();
+            DockablePaneService.RegisterDockableWindow(application, uc, dockablePaneId, dockablePaneTitle);
         }
         catch
         {

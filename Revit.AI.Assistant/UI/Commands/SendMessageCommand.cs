@@ -7,7 +7,6 @@ using System.Text.Json;
 namespace Revit.AI.Assistant.UI.Commands;
 internal class SendMessageCommand : CommandBase
 {
-    private readonly string modelName = "gpt-oss:20b";
     private readonly AIPanelUserControlDataContext dataContext;
     private readonly Action<Exception> onException;
     private int parameter;
@@ -17,7 +16,6 @@ internal class SendMessageCommand : CommandBase
     {
         Timeout = TimeSpan.FromMinutes(10)
     };
-
 
     public SendMessageCommand(AIPanelUserControlDataContext dataContext, Action<Exception> onException) : base(dataContext, onException)
     {
@@ -35,18 +33,20 @@ internal class SendMessageCommand : CommandBase
 
     private async Task SendToLLM()
     {
+        dataContext.ProgressMessage = "Thinking...";
         string message = dataContext.Message.Trim();
         if (string.IsNullOrEmpty(message)) return;
 
         dataContext.ChatHistory += $"You: {message}\n";
         dataContext.Message = string.Empty;
 
-        var additionToMessage = "Dynamo code for Revit script. " +
+        var additionToMessage = "Dynamo code for Revit script. Short answer." +
             "Just code snippet no additional text. Revit document should be identified as uiapp.ActiveUIDocument.Document, because I am passin uiapp as argument." +
             "No need to use TransactionManager, just use Revit’s Transaction API t=Transaction(doc,\"Transaction name\"). " +
             "It should be Python code.";
         var reply = await SendToGptOssAsync(string.Concat(additionToMessage, " ", message));
         dataContext.ChatHistory += $"GPT-OSS: {reply}\n";
+        dataContext.ProgressMessage = string.Empty;
 
         await RevitTask.RunAsync(app =>
         {
@@ -60,7 +60,7 @@ internal class SendMessageCommand : CommandBase
         {
             var request = new
             {
-                model = modelName,
+                model = dataContext.LanguageModel,
                 prompt = message,
                 stream = false
             };

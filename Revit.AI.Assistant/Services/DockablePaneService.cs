@@ -53,6 +53,20 @@ internal class DockablePaneService
         }
     }
 
+    public static DockablePane GetPaneWindow(UIApplication application, DockablePaneId paneId)
+    {
+        try
+        {
+            var pane = application.GetDockablePane(paneId);
+            return pane;
+        }
+        catch (Exception ex)
+        {
+            TaskDialog.Show("Exception", ex.Message);
+            return null;
+        }
+    }
+
     private static void AddDockableProvider(IDockablePaneProvider window, DockablePaneId paneId)
     {
         if (DockablePaneProviders == null)
